@@ -9,8 +9,9 @@ async def close_writer(writer, writers: list):
     :param writer:
         target writer which is ought to be closed
     :param writers: list
-        list of writers, usually from handlers/leading_handler.py. Writer will be excluded from this list (if present in one)
-    :return:
+        list of writers, usually from handlers/leading_handler.py. Writer will be excluded from
+        this list (if present in one)
+    :return: None
     """
     try:
         writer.close()
@@ -25,6 +26,12 @@ async def close_writer(writer, writers: list):
 
 
 async def close_writer_forced(writer, writers: list):
+    """
+    Forced closure of given writer with notification about this being forwarded to every other in the chat as plaint txt
+    :param writer:
+    :param writers: list
+    :return: None
+    """
     close_writer(writer, writers)
     address = writer.get_extra_info('peername')
     notification_for_all = message.Message(message_types_enum.MessageTypes.text, 'Server',
