@@ -14,7 +14,7 @@ writers = []
 
 async def hand(reader, writer):
     writers.append(writer)
-    address = utils.get_peer_name(writer)
+    address = utils.get_writer_address(writer)
     print(f'{address} added')
 
     await greet_and_notify(writer, writers)

@@ -4,6 +4,7 @@ from classes import message, message_types_enum
 from methods import send_methods
 import utils
 
+
 async def close_writer(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     """
     Closes given writer and removes it from global list of writers
@@ -17,8 +18,7 @@ async def close_writer(writer: typing_classes.StreamWriter, writers: typing_clas
         writer.close()
     except Exception as e:
         print('Some problem occurred during writer closure: ')
-        address = writer.get_extra_info('peername')
-        print(f'For {address}: \t {e}')
+        print(f'For {utils.get_writer_address(writer)}: \t {e}')
         print('But we will try to remove this writer from writers')
     finally:
         if writer in writers:
@@ -35,7 +35,6 @@ async def close_writer_forced(writer: typing_classes.StreamWriter, writers: typi
     :return:
     """
     await close_writer(writer, writers)
-    address = utils.get_peer_name(writer)
     notification_for_all = message.Message(message_types_enum.MessageTypes.text.value, 'Server',
-                                           f'{address} have lost connection with us')
+                                           f'{utils.get_writer_address(writer)} have lost connection with us')
     await send_methods.forward_to_all(writer, writers, notification_for_all)

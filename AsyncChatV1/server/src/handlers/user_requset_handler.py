@@ -16,7 +16,7 @@ async def handle_user_request(msg_text: str, writer: typing_classes.StreamWriter
     :param writers: list of all users in chat
     :return:
     """
-    addr = utils.get_peer_name(writer)
+    addr = utils.get_writer_address(writer)
     print(msg_text)
     if msg_text == '/exit':
         try:
