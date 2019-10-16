@@ -1,16 +1,18 @@
 import jsonpickle
+import json
 
 from classes import message, message_types_enum
 from .default_text_handler import handle_default_text
 from .user_requset_handler import handle_user_request
 from methods import send_methods, recieve_methods, disconnection_methods
+import utils
 
 writers = []
 
 
 async def hand(reader, writer):
     writers.append(writer)
-    address = writer.get_extra_info('peername')
+    address = utils.get_peer_name(writer)
     print(f'{address} added')
 
     await greet_and_notify(writer, writers)
@@ -44,7 +46,7 @@ async def hand(reader, writer):
 
 
 async def greet_and_notify(writer, writers: list):
-    address = writer.get_extra_info('peername')
+    address = utils.get_peer_name(writer)
 
     greet_msg = message.Message(message_types_enum.MessageTypes.text, 'Server', f'Welcome to server, {address}')
     await send_methods.send_to_one(writer, writers, greet_msg)

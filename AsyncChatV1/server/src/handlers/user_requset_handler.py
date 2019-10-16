@@ -1,14 +1,9 @@
-# from main import logger
-
-
 import methods
 from classes import message, message_types_enum
-
-
-# import logging
+import utils
 
 async def handle_user_request(msg_text, writer, writers):
-    addr = writer.get_extra_info('peername')
+    addr = utils.get_peer_name(writer)
     print(msg_text)
     if msg_text == '/exit':
         try:
@@ -21,7 +16,7 @@ async def handle_user_request(msg_text, writer, writers):
             pass
 
     elif msg_text == '/getusers':
-        list_of_users = [w.get_extra_info('peername') for w in writers]
+        list_of_users = [utils.get_peer_name(w) for w in writers]
         new_message = message.Message(message_types_enum.MessageTypes.server_response.value, 'Server', f'{list_of_users}')
 
         await methods.send_methods.send_to_one(writer, writers, new_message)
