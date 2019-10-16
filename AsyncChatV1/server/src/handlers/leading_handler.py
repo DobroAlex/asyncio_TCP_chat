@@ -15,12 +15,12 @@ async def hand(reader, writer):
 
     await greet_and_notify(writer, writers)
 
-    try:
-        while True:
+    while True:
+        try:
             msg = await recieve_methods.receive_message(reader)
 
             if not msg:
-                break
+                raise ConnectionResetError
 
             msg = jsonpickle.loads(msg)
 
@@ -28,9 +28,19 @@ async def hand(reader, writer):
                 await handle_user_request(msg['msg'], writer, writers)
             if msg['msg_type'] == message_types_enum.MessageTypes.text.value:
                 await handle_default_text(msg['msg'], writer, writers)
-    except ConnectionResetError as e:
-        print(f'{address} have disconnect without saying Bye, removing')
-        await disconnection_methods.close_writer_forced(writer, writers)
+
+        except ConnectionResetError:
+            print(f'{address} have disconnect without saying Bye, removing')
+            await disconnection_methods.close_writer_forced(writer, writers)
+            break
+
+        except json.decoder.JSONDecodeError:
+            print(f'{address} sent garbage')
+            notification_for_user = message.Message(message_types_enum.MessageTypes.text.value, 'Server',
+                                                    'SERVER_WARNING:Your message was garbage. If this error occurs '
+                                                    'again, '
+                                                    'reinstall app')
+            await send_methods.send_to_one(writer, writers, notification_for_user)
 
 
 async def greet_and_notify(writer, writers: list):
