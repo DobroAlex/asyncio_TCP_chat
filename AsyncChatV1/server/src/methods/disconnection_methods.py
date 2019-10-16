@@ -8,10 +8,8 @@ async def close_writer(writer: typing_classes.StreamWriter, writers: typing_clas
     """
     Closes given writer and removes it from global list of writers
 
-    :param writer: StreamWriter
-        target writer which is ought to be closed
-    :param writers: Participants
-        list of writers, usually from handlers/leading_handler.py. Writer will be excluded from
+    :param writer: target writer which is ought to be closed
+    :param writers: list of writers, usually from handlers/leading_handler.py. Writer will be excluded from
         this list (if present in one)
     :return: None
     """
@@ -30,9 +28,11 @@ async def close_writer(writer: typing_classes.StreamWriter, writers: typing_clas
 async def close_writer_forced(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     """
     Forced closure of given writer with notification about this being forwarded to every other in the chat as plaint txt
-    :param writer:
-    :param writers: list
-    :return: None
+
+    :param writer: target writer which is ought to be closed
+    :param writers: list of writers, usually from handlers/leading_handler.py. Writer will be excluded from
+        this list (if present in one)
+    :return:
     """
     await close_writer(writer, writers)
     address = utils.get_peer_name(writer)
