@@ -1,16 +1,18 @@
 import jsonpickle
 
-import classes.message as message
+from custom_typing import typing_classes
+
 from .disconnection_methods import close_writer_forced
 
 
-async def forward_to_all(writer, writers, msg: message):
+async def forward_to_all(writer: typing_classes.StreamWriter, writers: typing_classes.Participants,
+                         msg: typing_classes.Message):
     for w in writers:
         if w != writer:
             await send_to_one(w, writers, msg)
 
 
-async def send_to_one(writer, writers: list, msg: message):
+async def send_to_one(writer: typing_classes.StreamWriter, writers: typing_classes.Participants, msg: typing_classes.Message):
     """
     Sends given msg to writer. Adds new line at the end of the message. If there is an error,
     writer will be forced to close

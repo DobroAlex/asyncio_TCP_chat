@@ -1,8 +1,10 @@
+from custom_typing import typing_classes
+
 import methods
 from classes import message, message_types_enum
 import utils
 
-async def handle_user_request(msg_text, writer, writers):
+async def handle_user_request(msg_text: str, writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     addr = utils.get_peer_name(writer)
     print(msg_text)
     if msg_text == '/exit':

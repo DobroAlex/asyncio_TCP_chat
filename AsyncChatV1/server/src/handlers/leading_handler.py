@@ -1,6 +1,8 @@
 import jsonpickle
 import json
 
+from custom_typing import typing_classes
+
 from classes import message, message_types_enum
 from .default_text_handler import handle_default_text
 from .user_requset_handler import handle_user_request
@@ -45,7 +47,7 @@ async def hand(reader, writer):
             await send_methods.send_to_one(writer, writers, notification_for_user)
 
 
-async def greet_and_notify(writer, writers: list):
+async def greet_and_notify(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     address = utils.get_peer_name(writer)
 
     greet_msg = message.Message(message_types_enum.MessageTypes.text, 'Server', f'Welcome to server, {address}')

@@ -1,14 +1,16 @@
+from custom_typing import typing_classes
+
 from classes import message, message_types_enum
 from methods import send_methods
+import utils
 
-
-async def close_writer(writer, writers: list):
+async def close_writer(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     """
     Closes given writer and removes it from global list of writers
 
-    :param writer:
+    :param writer: StreamWriter
         target writer which is ought to be closed
-    :param writers: list
+    :param writers: Participants
         list of writers, usually from handlers/leading_handler.py. Writer will be excluded from
         this list (if present in one)
     :return: None
@@ -25,7 +27,7 @@ async def close_writer(writer, writers: list):
             writers.remove(writer)
 
 
-async def close_writer_forced(writer, writers: list):
+async def close_writer_forced(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     """
     Forced closure of given writer with notification about this being forwarded to every other in the chat as plaint txt
     :param writer:
