@@ -35,7 +35,7 @@ async def hand(reader, writer):
                 await handle_default_text(msg['msg'], writer, writers)
             else:
                 handle_incorrect_msg_type(writer, writers, msg['msg_type'])
-        except ConnectionResetError:
+        except (ConnectionResetError, ConnectionAbortedError):
             print(f'{address} have disconnect without saying Bye, removing')
             await disconnection_methods.close_writer_forced(writer, writers)
             break
