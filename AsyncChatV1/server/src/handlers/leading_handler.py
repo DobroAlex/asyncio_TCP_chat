@@ -6,6 +6,7 @@ from custom_typing import typing_classes
 from classes import message, message_types_enum
 from .default_text_handler import handle_default_text
 from .user_requset_handler import handle_user_request
+from .incorrect_requests_handler import handle_incorrect_msg_type
 from methods import send_methods, recieve_methods, disconnection_methods
 import utils
 
@@ -30,9 +31,10 @@ async def hand(reader, writer):
 
             if msg['msg_type'] == message_types_enum.MessageTypes.user_request.value:
                 await handle_user_request(msg['msg'], writer, writers)
-            if msg['msg_type'] == message_types_enum.MessageTypes.text.value:
+            elif msg['msg_type'] == message_types_enum.MessageTypes.text.value:
                 await handle_default_text(msg['msg'], writer, writers)
-
+            else:
+                handle_incorrect_msg_type(writer, writers, msg['msg_type'])
         except ConnectionResetError:
             print(f'{address} have disconnect without saying Bye, removing')
             await disconnection_methods.close_writer_forced(writer, writers)

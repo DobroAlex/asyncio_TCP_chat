@@ -2,6 +2,7 @@ from custom_typing import typing_classes
 
 import methods
 from classes import message, message_types_enum
+from .incorrect_requests_handler import handle_incorrect_msg_text
 import utils
 
 
@@ -35,7 +36,5 @@ async def handle_user_request(msg_text: str, writer: typing_classes.StreamWriter
         await methods.send_methods.send_to_one(writer, writers, new_message)
     else:
         print(f'{addr} request  {msg_text} -- cannot be proceeded')
+        handle_incorrect_msg_text(writer, writers, msg_text)
 
-        notification_for_user = message.Message(message_types_enum.MessageTypes.text, 'Server',
-                                                f'SERVER_WARNING: your request  {msg_text}  can not be proceeded')
-        await methods.send_methods.send_to_one(writer, writers, notification_for_user)
