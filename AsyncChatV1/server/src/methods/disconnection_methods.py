@@ -32,8 +32,8 @@ async def close_writer_forced(writer, writers: list):
     :param writers: list
     :return: None
     """
-    close_writer(writer, writers)
+    await close_writer(writer, writers)
     address = writer.get_extra_info('peername')
-    notification_for_all = message.Message(message_types_enum.MessageTypes.text, 'Server',
+    notification_for_all = message.Message(message_types_enum.MessageTypes.text.value, 'Server',
                                            f'{address} have lost connection with us')
-    send_methods.forward_to_all(writer, writers, notification_for_all)
+    await send_methods.forward_to_all(writer, writers, notification_for_all)
