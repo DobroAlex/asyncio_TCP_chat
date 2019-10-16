@@ -34,5 +34,8 @@ async def handle_user_request(msg_text: str, writer: typing_classes.StreamWriter
 
         await methods.send_methods.send_to_one(writer, writers, new_message)
     else:
-        print(f'{writer}:{addr} request  {msg_text} -- cannot be proceeded')
-        # TODO: add respond_to_user ('Uncrossable entity')
+        print(f'{addr} request  {msg_text} -- cannot be proceeded')
+
+        notification_for_user = message.Message(message_types_enum.MessageTypes.text, 'Server',
+                                                f'SERVER_WARNING: your request  {msg_text}  can not be proceeded')
+        await methods.send_methods.send_to_one(writer, writers, notification_for_user)
