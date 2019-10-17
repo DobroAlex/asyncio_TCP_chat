@@ -27,7 +27,7 @@ async def hand(reader, writer):
             if not msg:
                 raise ConnectionResetError
 
-            msg = jsonpickle.loads(msg)
+            msg = jsonpickle.decode(msg)
 
             if msg['msg_type'] == message_types_enum.MessageTypes.user_request.value:
                 await handle_user_request(msg['msg'], writer, writers)
