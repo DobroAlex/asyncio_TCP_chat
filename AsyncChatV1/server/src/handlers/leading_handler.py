@@ -42,8 +42,9 @@ async def hand(reader, writer):
 
         except json.decoder.JSONDecodeError:
             print(f'{address} sent garbage')
-            notification_for_user = message.Message(message_types_enum.MessageTypes.text.value, 'Server',
-                                                    'SERVER_WARNING:Your message was garbage. If this error occurs '
+            notification_for_user = message.Message(msg_type=message_types_enum.MessageTypes.text.value,
+                                                    author='Server',
+                                                    msg='SERVER_WARNING:Your message was garbage. If this error occurs '
                                                     'again, '
                                                     'reinstall app')
             await send_methods.send_to_one(writer, writers, notification_for_user)
@@ -52,8 +53,10 @@ async def hand(reader, writer):
 async def greet_and_notify(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     address = utils.get_peer_name(writer)
 
-    greet_msg = message.Message(message_types_enum.MessageTypes.text, 'Server', f'Welcome to server, {address}')
+    greet_msg = message.Message(msg_type=message_types_enum.MessageTypes.text, author='Server',
+                                msg=f'Welcome to server, {address}')
     await send_methods.send_to_one(writer, writers, greet_msg)
 
-    notification_message = message.Message(message_types_enum.MessageTypes.text, 'Server', f'{address} joined us')
+    notification_message = message.Message(msg_type=message_types_enum.MessageTypes.text, author='Server',
+                                           msg=f'{address} joined us')
     await send_methods.forward_to_all(writer, writers, notification_message)

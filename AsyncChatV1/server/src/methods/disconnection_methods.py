@@ -35,6 +35,6 @@ async def close_writer_forced(writer: typing_classes.StreamWriter, writers: typi
     :return:
     """
     await close_writer(writer, writers)
-    notification_for_all = message.Message(message_types_enum.MessageTypes.text.value, 'Server',
-                                           f'{utils.get_writer_address(writer)} have lost connection with us')
+    notification_for_all = message.Message(author='Server', msg_type=message_types_enum.MessageTypes.text.value,
+                                           msg=f'{utils.get_writer_address(writer)} have lost connection with us')
     await send_methods.forward_to_all(writer, writers, notification_for_all)
