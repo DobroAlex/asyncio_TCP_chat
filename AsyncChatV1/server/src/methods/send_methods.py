@@ -27,6 +27,7 @@ async def send_to_one(writer: typing_classes.StreamWriter, writers: typing_class
     writer will be forced to close
 
     :param writer: messenger recipient
+    :param writers: all other chat participants
     :param msg: a message to be delivered
     :return:
     """
