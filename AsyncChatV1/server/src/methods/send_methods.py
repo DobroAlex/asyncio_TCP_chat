@@ -31,7 +31,7 @@ async def send_to_one(writer: typing_classes.StreamWriter, writers: typing_class
     :return:
     """
     try:
-        final_msg = jsonpickle.dumps(msg) + '\n'  # Some telnet clients such as netcat/ncat or PuTTy dosen't
+        final_msg = jsonpickle.encode(msg) + '\n'  # Some telnet clients such as netcat/ncat or PuTTy dosen't
         # automatically print \n at the end of message
         writer.write(final_msg.encode())
     except Exception as e:
