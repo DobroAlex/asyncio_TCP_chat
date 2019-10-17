@@ -1,8 +1,10 @@
+import dataclasses
+
 import classes.message_types_enum as message_types_enum
 
 
+@dataclasses.dataclass
 class Message:
-    def __init__(self, msg_type: message_types_enum.MessageTypes, author: str, msg: str):
-        self.msg_type = msg_type
-        self.msg = msg
-        self.author = author
+    msg_type: message_types_enum.MessageTypes
+    msg: str
+    author: str
