@@ -1,5 +1,6 @@
-import jsonpickle
 import json
+
+from classes import message
 
 from custom_typing import typing_classes
 
@@ -27,14 +28,14 @@ async def hand(reader, writer):
             if not msg:
                 raise ConnectionResetError
 
-            msg = jsonpickle.decode(msg)
+            msg = message.Message.deserialize(msg)
 
-            if msg['msg_type'] == message_types_enum.MessageTypes.user_request.value:
-                await handle_user_request(msg['msg'], writer, writers)
-            elif msg['msg_type'] == message_types_enum.MessageTypes.text.value:
-                await handle_default_text(msg['msg'], writer, writers)
+            if msg.msg_type == message_types_enum.MessageTypes.user_request.value:
+                await handle_user_request(msg.msg, writer, writers)
+            elif msg.msg_type == message_types_enum.MessageTypes.text.value:
+                await handle_default_text(msg.msg, writer, writers)
             else:
-                handle_incorrect_msg_type(writer, writers, msg['msg_type'])
+                handle_incorrect_msg_type(writer, writers, msg.msg_type)
         except (ConnectionResetError, ConnectionAbortedError):
             print(f'{address} have disconnect without saying Bye, removing')
             await disconnection_methods.close_writer_forced(writer, writers)
@@ -45,8 +46,8 @@ async def hand(reader, writer):
             notification_for_user = message.Message(msg_type=message_types_enum.MessageTypes.text.value,
                                                     author='Server',
                                                     msg='SERVER_WARNING:Your message was garbage. If this error occurs '
-                                                    'again, '
-                                                    'reinstall app')
+                                                        'again, '
+                                                        'reinstall app')
             await send_methods.send_to_one(writer, writers, notification_for_user)
 
 
