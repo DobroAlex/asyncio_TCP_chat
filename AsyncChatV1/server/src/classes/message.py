@@ -12,3 +12,7 @@ class Message:
     @staticmethod
     def deserialize(json_str: str):
         return jsonpickle.decode(json_str, classes=Message)
+
+    @staticmethod
+    def create_from_dict(target: dict):
+        return Message(msg=target['msg'], author=target['author'], msg_type=target['msg_type'])
