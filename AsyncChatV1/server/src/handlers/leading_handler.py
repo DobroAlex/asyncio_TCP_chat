@@ -28,7 +28,13 @@ async def hand(reader, writer):
             if not msg:
                 raise ConnectionResetError
 
+
+            if not ("author" in msg):
+                msg = msg[:-2] + f', "author":"{address}"' + '}'
             msg = message.Message.deserialize(msg)
+
+            if type(msg) == dict:
+                msg = message.Message.create_from_dict(msg)
 
             if msg.msg_type == message_types_enum.MessageTypes.user_request.value:
                 await handle_user_request(msg.msg, writer, writers)
