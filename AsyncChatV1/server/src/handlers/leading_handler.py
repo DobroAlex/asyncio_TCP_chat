@@ -60,10 +60,10 @@ async def hand(reader, writer):
 async def greet_and_notify(writer: typing_classes.StreamWriter, writers: typing_classes.Participants):
     address = utils.get_peer_name(writer)
 
-    greet_msg = message.Message(msg_type=message_types_enum.MessageTypes.text, author='Server',
+    greet_msg = message.Message(msg_type=message_types_enum.MessageTypes.text.value, author='Server',
                                 msg=f'Welcome to server, {address}')
     await send_methods.send_to_one(writer, writers, greet_msg)
 
-    notification_message = message.Message(msg_type=message_types_enum.MessageTypes.text, author='Server',
+    notification_message = message.Message(msg_type=message_types_enum.MessageTypes.text.value, author='Server',
                                            msg=f'{address} joined us')
     await send_methods.forward_to_all(writer, writers, notification_message)
