@@ -48,7 +48,7 @@ async def hand(reader, writer):
             break
 
         except json.decoder.JSONDecodeError:
-            print(f'{address} sent garbage')
+            print(f'{address} sent garbage: {msg}')
             notification_for_user = message.Message(msg_type=message_types_enum.MessageTypes.text.value,
                                                     author='Server',
                                                     msg='SERVER_WARNING:Your message was garbage. If this error occurs '
