@@ -3,6 +3,7 @@ import jsonpickle
 
 from classes import message, message_types_enum as message_types
 
+
 def receiving_routine(main_socket: socket.socket):
     while True:
         msg = main_socket.recv(1024)
