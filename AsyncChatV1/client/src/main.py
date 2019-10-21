@@ -1,7 +1,5 @@
 import threading
 
-from classes import stoppable_thread
-
 from routines import establish_connection, receiving_routine, forwarding_routine
 
 
