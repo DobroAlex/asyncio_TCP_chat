@@ -28,7 +28,6 @@ async def hand(reader, writer):
             if not msg:
                 raise ConnectionResetError
 
-
             if not ("author" in msg):
                 msg = msg[:-2] + f', "author":"{address}"' + '}'
             msg = message.Message.deserialize(msg)
