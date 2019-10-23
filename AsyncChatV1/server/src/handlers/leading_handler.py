@@ -40,14 +40,14 @@ async def hand(reader, writer):
             elif msg.msg_type == message_types_enum.MessageTypes.text.value:
                 await handle_default_text(msg.msg, writer, writers)
             else:
-                handle_incorrect_msg_type(writer, writers, msg.msg_type)
+                await handle_incorrect_msg_type(writer, writers, msg.msg_type)
         except (ConnectionResetError, ConnectionAbortedError):
-            print(f'{address} have disconnect without saying Bye, removing')
+            logger.warning(f'{address} have disconnect without saying Bye, removing')
             await disconnection_methods.close_writer_forced(writer, writers)
             break
 
         except json.decoder.JSONDecodeError:
-            print(f'{address} sent garbage: {msg}')
+            logger.exception(f'{address} sent garbage: {msg}')
             notification_for_user = message.Message(msg_type=message_types_enum.MessageTypes.text.value,
                                                     author='Server',
                                                     msg='SERVER_WARNING:Your message was garbage. If this error occurs '
